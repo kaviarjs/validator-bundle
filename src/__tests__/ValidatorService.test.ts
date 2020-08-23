@@ -94,7 +94,7 @@ describe("ValidatorService", () => {
 
     @Schema()
     class Package {
-      @Is((a.string() as ITestStringSchema).isNotBomb())
+      @Is(() => (a.string() as ITestStringSchema).isNotBomb())
       name: string;
     }
 
@@ -110,7 +110,7 @@ describe("ValidatorService", () => {
 
     @Schema()
     class Package2 {
-      @Is((a.string() as ITestStringSchema).isNotBomb("zz"))
+      @Is(() => (a.string() as ITestStringSchema).isNotBomb("zz"))
       name: string;
     }
 

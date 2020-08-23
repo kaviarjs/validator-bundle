@@ -1,9 +1,9 @@
 import { ContainerInstance, Constructor } from "@kaviar/core";
 import { IValidationMethod, IValidateOptions } from "../defs";
-import { getSchemaByType } from "yup-decorator";
 import { SchemaNotIdentifiedException } from "../exceptions";
 import { Schema, addMethod, mixed as MixedSchema } from "yup";
 import { IValidationTransformer } from "../defs";
+import { getSchemaByType } from "../yup-decorator";
 
 export class ValidatorService {
   constructor(protected readonly container: ContainerInstance) {}
@@ -25,7 +25,6 @@ export class ValidatorService {
   }
 
   getSchema(object: any, options?: IValidateOptions): Schema<any> {
-    // try to get the sc
     let model;
     if (options?.model) {
       model = options.model;
@@ -37,13 +36,7 @@ export class ValidatorService {
       throw new SchemaNotIdentifiedException();
     }
 
-    const schema = getSchemaByType(model);
-
-    if (!schema) {
-      throw new SchemaNotIdentifiedException();
-    }
-
-    return schema;
+    return getSchemaByType(model);
   }
 
   addMethod(methodClass: Constructor<IValidationMethod>) {

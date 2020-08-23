@@ -1,13 +1,7 @@
-## Validator
-
-Empowers you to:
-
-- Validate objects seamlessly
-- Create custom container-aware validation constraints which can be async
-- It leverages popular package `yup`
+This package contains a naet, TypeScript-oriented solution to validating models, creating custom validation constraints that are container-aware. It leverages the awesome [yup validation package](https://github.com/jquense/yup).
 
 ```bash
-npm install yup @types/yup @kaviar/validator
+npm i -S @kaviar/validator
 ```
 
 ```typescript
@@ -41,11 +35,13 @@ const validatorService = container.get(ValidatorService);
 
 validatorService.validate(dataSet, {
   schema: UserRegistrationInput,
-  ...ValidateOptions, // from yup
+  ...otherOptionsFromYup, // found in it's official documentation
 });
+```
 
-// Or simply validate the instance
-// plainToClass from npm package "class-transformer", transforms a normal object into an instance
+Or simply validate the instance by using the `class-transformer` npm package:
+
+```typescript
 const instance = plainToClass(UserRegistrationInput, dataSet);
 
 // If you use the instance, it'll know the constructor and you will not have to provide the schema model
@@ -54,17 +50,19 @@ await validatorService.validate(instance);
 
 ## Custom Validations
 
-The validator is a class.
+It's always a good idea to be able to customise validations, so here is our solution:
 
 ```typescript
+import { Service, Inject } from "@kaviar/core";
 import { yup, IValidationMethod } from "@kaviar/validator";
 
-interface IUniqueFieldValidationConfig {
+export interface IUniqueFieldValidationConfig {
   message?: string;
   table: string;
   field: string;
 }
 
+@Service()
 class UniqueFieldValidationMethod
   implements IValidationMethod<IUniqueFieldValidationConfig> {
   // What is your string like, which you want to validate?
@@ -80,29 +78,40 @@ class UniqueFieldValidationMethod
     config: IUniqueFieldValidationConfig,
     { createError, path }
   ) {
-    // The 3d argument the context, can be found here:
+    // The 3d argument, the context, can be found here:
     // https://github.com/jquense/yup#mixedtestname-string-message-string--function-test-function-schema
 
     const { table, field, message } = config;
-    // search to see if that field exists
+    let valueAlreadyExists; /* search to see if that field exists */
 
     if (valueAlreadyExists) {
       createError(message || `The field already exists`);
     }
   }
 }
+```
 
-// And ensure typescript knows about this!
-// Unfortunately, there's no automated way to do this.
-// declarations.d.ts
-import { yup } from "@kaviar/validator";
+And ensure TypeScript knows about this:
 
-declare module "yup" {
-  interface StringSchema<T> {
-    uniqueField(config?: IUniqueFieldValidationConfig): StringSchema<T>;
+```typescript
+// declarations.ts
+import "@kaviar/validator";
+import { IUniqueFieldValidationConfig } from "./validator.ts";
+
+/**
+ * We need to be able to have autocompletion and extend the "yup" from within our validator.
+ */
+declare module "@kaviar/validator" {
+  // eslint-disable-next-line
+  export module yup {
+    export interface StringSchema {
+      uniqueField(config?: IUniqueFieldValidationConfig): StringSchema;
+    }
   }
 }
 ```
+
+You now have to register the method, you add this in the prepare() phase of your bundle:
 
 ```typescript
 const validatorService = container.get(ValidatorService);
@@ -129,6 +138,7 @@ class UserRegistrationInput {
 Now let's say you receive from inputs a date, but not an object date, a string, "2018-12-04" you want to make it a date, so you would want to typecast it. That's done via transformers
 
 ```typescript
+import * as moment from "moment";
 import { yup, IValidationMethod } from "@kaviar/validator";
 
 type IDateTransformerConfig = string;
@@ -150,13 +160,9 @@ class DateTransformer implements IValidationMethod<IDateTransformerConfig, Date>
     return date.isValid() ? date.toDate() : new Date();
   }
 }
-
-declare module "yup" {
-  interface DateSchema<T> {
-    format(format?: string): DateSchema<T>
-  }
-}
 ```
+
+You can add it to TypeScript declarations in the same manner as we've seen for the Validator above.
 
 ```typescript
 const validatorService = container.get(ValidatorService);
@@ -181,6 +187,5 @@ const object = validatorService.validate(input, {
 });
 
 // Casting has been doen automatically, if you want just casting: validatorService.cast(input)
-
 object.publishAt; // instanceof Date now
 ```

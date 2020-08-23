@@ -1,8 +1,10 @@
+import { Constructor } from "@kaviar/core";
 import {
   ValidateOptions,
   AnySchemaConstructor,
   TestContext,
   MixedSchema,
+  string,
 } from "yup";
 
 export { ValidateOptions };
@@ -31,4 +33,9 @@ export interface IValidationTransformer<
     config: C,
     schema: Schema
   ): V;
+}
+
+export interface IKaviarValidation<T = any> {
+  type: Constructor<IValidationMethod>;
+  options?: T;
 }

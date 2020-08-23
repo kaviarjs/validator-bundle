@@ -1,11 +1,12 @@
 {
   "name": "@kaviar/validator",
   "version": "1.0.0",
-  "description": "Kaviar Template",
+  "private": true,
+  "description": "Object validation strategy using yup and decorators.",
   "main": "dist/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kaviarjs/template"
+    "url": "https://github.com/kaviarjs/validator"
   },
   "scripts": {
     "compile": "tsc",
@@ -23,8 +24,7 @@
   },
   "dependencies": {
     "@types/yup": "^0.29.0",
-    "yup": "^0.29.0",
-    "yup-decorator": "^2.1.0"
+    "yup": "^0.29.0"
   },
   "peerDependencies": {
     "@kaviar/core": "^1.0.2"
