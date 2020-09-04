@@ -5,7 +5,7 @@ npm i -S @kaviar/validator
 ```
 
 ```typescript
-import { a, an, Is, Schema, Nested } from "@kaviar/validator";
+import { a, an, Is, Schema, Nested } from "@kaviar/validator-bundle";
 
 // a, an === yup basically
 @Schema()
@@ -54,7 +54,7 @@ It's always a good idea to be able to customise validations, so here is our solu
 
 ```typescript
 import { Service, Inject } from "@kaviar/core";
-import { yup, IValidationMethod } from "@kaviar/validator";
+import { yup, IValidationMethod } from "@kaviar/validator-bundle";
 
 export interface IUniqueFieldValidationConfig {
   message?: string;
@@ -95,13 +95,13 @@ And ensure TypeScript knows about this:
 
 ```typescript
 // declarations.ts
-import "@kaviar/validator";
+import "@kaviar/validator-bundle";
 import { IUniqueFieldValidationConfig } from "./validator.ts";
 
 /**
  * We need to be able to have autocompletion and extend the "yup" from within our validator.
  */
-declare module "@kaviar/validator" {
+declare module "@kaviar/validator-bundle" {
   // eslint-disable-next-line
   export module yup {
     export interface StringSchema {
@@ -139,7 +139,7 @@ Now let's say you receive from inputs a date, but not an object date, a string, 
 
 ```typescript
 import * as moment from "moment";
-import { yup, IValidationMethod } from "@kaviar/validator";
+import { yup, IValidationMethod } from "@kaviar/validator-bundle";
 
 type IDateTransformerConfig = string;
 

@@ -7,7 +7,7 @@ import {
   IValidationMethod,
   yup,
   IValidationTransformer,
-} from "../";
+} from "..";
 import { ContainerInstance } from "@kaviar/core";
 import { ValidationError, StringSchema } from "yup";
 import { ITestStringSchema } from "./defs.test";
