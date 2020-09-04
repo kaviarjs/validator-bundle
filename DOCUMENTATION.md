@@ -1,7 +1,7 @@
 This package contains a naet, TypeScript-oriented solution to validating models, creating custom validation constraints that are container-aware. It leverages the awesome [yup validation package](https://github.com/jquense/yup).
 
 ```bash
-npm i -S @kaviar/validator
+npm i -S @kaviar/validator-bundle
 ```
 
 ```typescript

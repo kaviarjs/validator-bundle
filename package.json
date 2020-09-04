@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kaviarjs/validator"
+    "url": "https://github.com/kaviarjs/validator-bundle"
   },
   "scripts": {
     "compile": "tsc",
