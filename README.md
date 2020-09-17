@@ -12,7 +12,7 @@
 <br />
 <br />
 
-This package contains a naet, TypeScript-oriented solution to validating models, creating custom validation constraints that are container-aware. It leverages the awesome [yup validation package](https://github.com/jquense/yup)
+This package contains a neat, TypeScript-oriented solution to validating models, creating custom validation constraints that are container-aware. It leverages the awesome [yup validation package](https://github.com/jquense/yup)
 
 ## Install
 
