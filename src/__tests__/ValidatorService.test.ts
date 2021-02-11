@@ -20,7 +20,7 @@ describe("ValidatorService", () => {
       name: string;
     }
 
-    const container = new ContainerInstance(Math.random());
+    const container = new ContainerInstance(Math.random().toString());
     const validator = new ValidatorService(container);
 
     const result = await validator.validate(
@@ -60,7 +60,7 @@ describe("ValidatorService", () => {
   });
 
   it("should be able to add a custom validator async, container aware", async () => {
-    const container = new ContainerInstance(Math.random());
+    const container = new ContainerInstance(Math.random().toString());
     const validator = new ValidatorService(container);
 
     class IsABomb implements IValidationMethod<string> {
@@ -126,7 +126,7 @@ describe("ValidatorService", () => {
   });
 
   it("should be able to add a custom transformer async", async () => {
-    const container = new ContainerInstance(Math.random());
+    const container = new ContainerInstance(Math.random().toString());
     const validator = new ValidatorService(container);
 
     class ReverseTransformer implements IValidationTransformer<string, string> {
