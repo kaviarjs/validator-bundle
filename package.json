@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@types/yup": "^0.29.0",
-    "yup": "^0.29.0"
+    "yup": "^0.32.8"
   },
   "peerDependencies": {
     "@kaviar/core": "^1.1.1"
