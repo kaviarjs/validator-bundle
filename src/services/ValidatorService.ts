@@ -1,10 +1,11 @@
-import { ContainerInstance, Constructor } from "@kaviar/core";
+import { ContainerInstance, Constructor, Service } from "@kaviar/core";
 import { IValidationMethod, IValidateOptions } from "../defs";
 import { SchemaNotIdentifiedException } from "../exceptions";
 import { Schema, addMethod, mixed as MixedSchema } from "yup";
 import { IValidationTransformer } from "../defs";
 import { getSchemaByType } from "../yup-decorator";
 
+@Service()
 export class ValidatorService {
   constructor(protected readonly container: ContainerInstance) {}
 
