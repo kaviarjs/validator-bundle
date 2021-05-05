@@ -34,7 +34,7 @@ export class ProfileRegistrationInput {
 const validatorService = container.get(ValidatorService);
 
 validatorService.validate(dataSet, {
-  schema: UserRegistrationInput,
+  model: UserRegistrationInput,
   ...otherOptionsFromYup, // found in it's official documentation
 });
 ```

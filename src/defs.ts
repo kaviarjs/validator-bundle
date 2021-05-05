@@ -10,6 +10,9 @@ import {
 export { ValidateOptions };
 
 export interface IValidateOptions extends ValidateOptions {
+  /**
+   * This represents a schema model class created with @Schema decorator
+   */
   model: any;
 }
 
