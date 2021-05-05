@@ -183,7 +183,7 @@ const input = {
 };
 
 const object = validatorService.validate(input, {
-  schema: PostCreateInput,
+  model: PostCreateInput,
 });
 
 // Casting has been doen automatically, if you want just casting: validatorService.cast(input)
