@@ -30,8 +30,6 @@ export class ValidatorService {
     return this.getSchema(object, options).cast(object, options);
   }
 
-  toModel(object: object, model: Constructor<any>) {}
-
   getSchema(object: any, options?: IValidateOptions): ObjectSchema<any> {
     let model;
     if (options?.model) {

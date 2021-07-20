@@ -91,9 +91,6 @@ describe("ValidatorService", () => {
     const pack = new Package();
     pack.name = "bomb";
 
-    validator.validate(pack).catch((err) => {
-      console.log(err);
-    });
     await expect(validator.validate(pack)).rejects.toBeInstanceOf(
       ValidationError
     );
