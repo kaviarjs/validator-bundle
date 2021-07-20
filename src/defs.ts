@@ -1,14 +1,15 @@
 import { Constructor } from "@kaviar/core";
 import {
-  ValidateOptions,
-  AnySchemaConstructor,
   TestContext,
   MixedSchema,
   string,
+  AnySchema,
+  BaseSchema,
+  StringSchema,
 } from "yup";
+import { ValidateOptions } from "./yup-decorator";
 
-export { ValidateOptions };
-
+// Copied from yup beause they don't export it
 export interface IValidateOptions extends ValidateOptions {
   /**
    * This represents a schema model class created with @Schema decorator
@@ -19,26 +20,21 @@ export interface IValidateOptions extends ValidateOptions {
 export interface IValidationMethod<T = any, V = any> {
   name: string;
   message?: string;
-  parent?: AnySchemaConstructor;
+  parent?: () => BaseSchema | Constructor<BaseSchema>;
   validate(value: V, config: T, yupContext: TestContext): Promise<void | V>;
 }
 
 export interface IValidationTransformer<
   C = any,
   V = any,
-  Schema = MixedSchema
+  Schema = typeof BaseSchema
 > {
   name: string;
-  parent?: AnySchemaConstructor;
+  parent?: () => BaseSchema | Constructor<BaseSchema>;
   transform(
     value: any | V,
     originalValue: any | V,
     config: C,
     schema: Schema
   ): V;
-}
-
-export interface IKaviarValidation<T = any> {
-  type: Constructor<IValidationMethod>;
-  options?: T;
 }

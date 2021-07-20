@@ -1,7 +1,7 @@
-import { ObjectSchema, Schema, ValidateOptions } from "yup";
+import { ObjectSchema, BaseSchema } from "yup";
 import * as yup from "yup";
 
-export type SchemaOrSchemaCreator = Schema<any> | (() => Schema<any>);
+export type SchemaOrSchemaCreator = BaseSchema<any> | (() => BaseSchema<any>);
 
 /**
  *
@@ -52,7 +52,7 @@ export function getSchemaByType(target: Object) {
  * @param objectSchema The initial schema
  */
 export function schema(
-  objectSchema: ObjectSchema = yup.object()
+  objectSchema: ObjectSchema<any> = yup.object()
 ): ClassDecorator {
   return (target) => {
     // The idea is that we don't generate the schema on the fly
@@ -133,10 +133,33 @@ function getSchema({ object }) {
   return getSchemaByType(object.constructor);
 }
 
+export interface ValidateOptions<TContext = {}> {
+  /**
+   * Only validate the input, and skip and coercion or transformation. Default - false
+   */
+  strict?: boolean;
+  /**
+   * Return from validation methods on the first error rather than after all validations run. Default - true
+   */
+  abortEarly?: boolean;
+  /**
+   * Remove unspecified keys from objects. Default - false
+   */
+  stripUnknown?: boolean;
+  /**
+   * When false validations will not descend into nested schema (relevant for objects or arrays). Default - true
+   */
+  recursive?: boolean;
+  /**
+   * Any context needed for validating schema conditions (see: when())
+   */
+  context?: TContext;
+}
+
 export const a = yup;
 export const an = yup;
 
-function defineSchema(target, objectSchema: ObjectSchema) {
+function defineSchema(target, objectSchema: ObjectSchema<any>) {
   const schemaMap = metadataStorage.findSchemaMetadata(target);
 
   if (!schemaMap) {

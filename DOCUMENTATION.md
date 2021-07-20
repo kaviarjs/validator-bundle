@@ -54,7 +54,7 @@ It's always a good idea to be able to customise validations, so here is our solu
 
 ```typescript
 import { Service, Inject } from "@kaviar/core";
-import { yup, IValidationMethod } from "@kaviar/validator-bundle";
+import { yup, IValidationMethod, TestContext } from "@kaviar/validator-bundle";
 
 export interface IUniqueFieldValidationConfig {
   message?: string;
@@ -76,7 +76,7 @@ class UniqueFieldValidationMethod
   async validate(
     value: string,
     config: IUniqueFieldValidationConfig,
-    { createError, path }
+    { createError, path }: TestContext
   ) {
     // The 3d argument, the context, can be found here:
     // https://github.com/jquense/yup#mixedtestname-string-message-string--function-test-function-schema
@@ -115,6 +115,7 @@ You now have to register the method, you add this in the prepare() phase of your
 
 ```typescript
 const validatorService = container.get(ValidatorService);
+
 validatorService.addMethod(UniqueFieldValidationMethod);
 ```
 

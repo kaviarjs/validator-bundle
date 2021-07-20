@@ -1,7 +1,12 @@
 import { ContainerInstance, Constructor, Service } from "@kaviar/core";
 import { IValidationMethod, IValidateOptions } from "../defs";
 import { SchemaNotIdentifiedException } from "../exceptions";
-import { Schema, addMethod, mixed as MixedSchema } from "yup";
+import {
+  addMethod,
+  mixed as MixedSchema,
+  ObjectSchema,
+  TestContext,
+} from "yup";
 import { IValidationTransformer } from "../defs";
 import { getSchemaByType } from "../yup-decorator";
 
@@ -21,11 +26,13 @@ export class ValidatorService {
     return this.getSchema(object, options).validateAt(path, object, options);
   }
 
-  cast(object: any, options?: any) {
+  cast(object: any, options?: IValidateOptions) {
     return this.getSchema(object, options).cast(object, options);
   }
 
-  getSchema(object: any, options?: IValidateOptions): Schema<any> {
+  toModel(object: object, model: Constructor<any>) {}
+
+  getSchema(object: any, options?: IValidateOptions): ObjectSchema<any> {
     let model;
     if (options?.model) {
       model = options.model;
