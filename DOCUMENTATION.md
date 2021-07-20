@@ -1,7 +1,7 @@
 This package contains a neat, TypeScript-oriented solution to validating models, creating custom validation constraints that are container-aware. It leverages the awesome [yup validation package](https://github.com/jquense/yup).
 
 ```bash
-npm i -S @kaviar/validator-bundle
+npm i -S yup @kaviar/validator-bundle
 ```
 
 ```typescript
@@ -97,18 +97,18 @@ And ensure TypeScript knows about this:
 
 ```typescript
 // declarations.ts
-import "@kaviar/validator-bundle";
+import * as yup from "yup";
 import { IUniqueFieldValidationConfig } from "./validator.ts";
 
 /**
  * We need to be able to have autocompletion and extend the "yup" from within our validator.
  */
-declare module "@kaviar/validator-bundle" {
-  // eslint-disable-next-line
-  export module yup {
-    export interface StringSchema {
-      uniqueField(config?: IUniqueFieldValidationConfig): StringSchema;
-    }
+declare module "yup" {
+  export class StringSchema extends yup.StringSchema {
+    /**
+     * Specify a unique constraint for this field
+     */
+    uniqueField(config?: IUniqueFieldValidationConfig): StringSchema;
   }
 }
 ```
