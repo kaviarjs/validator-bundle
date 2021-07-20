@@ -76,6 +76,8 @@ describe("ValidatorService", () => {
         // to ensure async
         if (value === "bomb" + (suffix ? suffix : "")) {
           yupContext.createError({ message: "boom!" });
+        } else {
+          return "ok";
         }
       }
     }
@@ -94,8 +96,6 @@ describe("ValidatorService", () => {
     await expect(validator.validate(pack)).rejects.toBeInstanceOf(
       ValidationError
     );
-
-    return;
 
     pack.name = "notbomb";
 

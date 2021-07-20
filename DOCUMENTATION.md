@@ -86,6 +86,8 @@ class UniqueFieldValidationMethod
 
     if (valueAlreadyExists) {
       createError(message || `The field already exists`);
+    } else {
+      return "ok";
     }
   }
 }
